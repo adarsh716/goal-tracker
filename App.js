@@ -22,12 +22,24 @@ export default function Index() {
     }
   };
 
+  const handleDeleteGoal = (goalId) => {
+    setGoals(goals.filter(goal => goal.id !== goalId));
+  };
+
   const renderGoalItem = ({ item, index }) => (
     <View style={[styles.goalItem, { transform: [{ scale: 1 }] }]}>
       <View style={styles.goalNumber}>
         <Text style={styles.goalNumberText}>{index + 1}</Text>
       </View>
       <Text style={styles.goalText}>{item.text}</Text>
+      <TouchableOpacity
+        style={styles.deleteButton}
+        onPress={() => handleDeleteGoal(item.id)}
+        accessibilityLabel="Delete goal"
+        accessibilityRole="button"
+      >
+        <Text style={styles.deleteButtonText}>🗑️</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -37,13 +49,14 @@ export default function Index() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
       >
-
+        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerEmoji}>🎯</Text>
           <Text style={styles.headerText}>Goal Tracker</Text>
           <Text style={styles.headerSubtext}>Turn dreams into achievements</Text>
         </View>
 
+        {/* Input Section */}
         <View style={styles.inputContainer}>
           <View style={styles.inputWrapper}>
             <TextInput
@@ -69,6 +82,7 @@ export default function Index() {
           </View>
         </View>
 
+        {/* Goals Section */}
         <View style={styles.goalsContainer}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Your Goals</Text>
@@ -126,7 +140,6 @@ const styles = StyleSheet.create({
   headerEmoji: {
     fontSize: 32,
     marginBottom: 8,
-    marginTop: 8,
   },
   headerText: {
     fontSize: 32,
